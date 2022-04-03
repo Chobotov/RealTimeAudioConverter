@@ -1,5 +1,4 @@
 import PySimpleGUI as sg
-import asyncio
 import Scripts.NeuroWeb.Listener as ls
 import threading
 
@@ -24,24 +23,21 @@ layout = [
 
 window = sg.Window('Распознавания речи в режиме реального времени', layout)
 
-def windowLife():
-    while True:
-        event, values = window.read()
+while True:
+    event, values = window.read()
 
-        if event in (None, 'Выход', 'Cancel'):
-            break
+    if event in (None, 'Выход', 'Cancel'):
+        break
 
-        if event == startListen:
-            listener.startListenning()
-            currentStatus = listenStatus
-            window[statusBarKey].Update(currentStatus)
+    if event == startListen:
+        listener.startListenning()
+        currentStatus = listenStatus
+        window[statusBarKey].Update(currentStatus)
 
-        if event == stopListen:
-            listener.stopListenning()
-            currentStatus = noListenStatus
-            window[statusBarKey].Update(currentStatus)
+    if event == stopListen:
+        listener.stopListenning()
+        currentStatus = noListenStatus
+        window[statusBarKey].Update(currentStatus)
 
-        if event == clear:
-            window[outputKey].Update('')
-
-threading.Thread(target=windowLife(), daemon=True).start()
+    if event == clear:
+        window[outputKey].Update('')
